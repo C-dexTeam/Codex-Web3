@@ -1,0 +1,20 @@
+{
+  "name": "codex",
+  "version": "1.0.0",
+  "description": "This repository contains the Web3 API for our Codex Project, designed to handle various Web3 and NFT-related operations. It enables seamless integration with blockchain networks, providing functionalities for both NFT and broader Web3 transactions.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Codex-Web3"
+  },
+  "author": "Çetin Boran Mesüm",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,6 @@
+app:
+  devMode: true
+
+http:
+  host: "localhost"
+  port: "8082"
