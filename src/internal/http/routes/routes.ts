@@ -1,18 +1,18 @@
-import SolonaRoutes from "./solana";
+import WalletRoutes from "./wallet";
 import { Express } from 'express';
 
 // This Class For Grouping Routes
 class Routes {
     private app: Express;
-    private solona: SolonaRoutes;
+    private wallet: WalletRoutes;
 
-    constructor(app: Express, solonaRoutes: SolonaRoutes) {
+    constructor(app: Express, walletRoutes: WalletRoutes) {
         this.app = app; 
-        this.solona = solonaRoutes;
+        this.wallet = walletRoutes;
     }
 
     init() {
-        this.app.use('/solana', this.solona.init());
+        this.app.use('/wallet', this.wallet.init());
     }
 }
 
