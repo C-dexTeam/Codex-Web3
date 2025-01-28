@@ -21,7 +21,7 @@ export const Run = (config: Config): void => {
     const solonaRoutes = new SolonaRoutes(handler)
     const routes = new Routes(app, solonaRoutes)
 
-    // // Implementation of Routers
+    // Implementation of Routers
     routes.init()
 
     // Welcome Message
