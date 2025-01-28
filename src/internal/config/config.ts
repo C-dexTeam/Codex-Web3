@@ -1,5 +1,6 @@
 import * as yaml from 'js-yaml';
 import * as fs from 'fs';
+import { format } from 'path';
 
 interface Config {
     [key: string]: any; 
