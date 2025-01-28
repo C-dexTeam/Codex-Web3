@@ -11,13 +11,21 @@ class WalletRoutes {
 
     init(): Router {
         const router = Router();
-        
+
         router.get('/', (req: Request, res: Response) => {
             this.handler.WalletHandler().Hello(req, res);
         });
 
         router.get('/balance/:walletAddress', (req: Request, res: Response) => {
             this.handler.WalletHandler().GetBalance(req, res)
+        })
+
+        router.get('/info/:walletAddress', (req: Request, res: Response) => {
+            this.handler.WalletHandler().GetAccountInfo(req, res)
+        })
+
+        router.post('/airdrop', (req: Request, res: Response) => {
+            this.handler.WalletHandler().Airdrop(req,res)
         })
 
         return router;

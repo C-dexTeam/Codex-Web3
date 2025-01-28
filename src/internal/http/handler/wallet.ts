@@ -20,7 +20,7 @@ class WalletHandler {
             return this.errorHandler.BadRequest("Name parameter is required.");
         }
         
-        const msg = this.services.SolanaService().Hello(name);
+        const msg = this.services.WalletService().Hello(name);
         
         return this.errorHandler.OK("Hello Success", msg);
     }
@@ -31,19 +31,50 @@ class WalletHandler {
         const walletAddress: string | undefined = req.params.walletAddress;
     
         try {
-            const balance = await this.services.SolanaService().GetBalance(walletAddress);
+            const balance = await this.services.WalletService().GetBalance(walletAddress);
     
             return this.errorHandler.OK("Balance fetched successfully", balance);
         } catch (error) {
             if (error instanceof ResponseData) {
-                console.log(error)
                 return this.errorHandler.Format(error)
             }
+            return this.errorHandler.InternalServerError("Unkown Error", error);
         }
+    }
 
-        return this.errorHandler.OK("Get Balance Success", "msg");
+    GetAccountInfo = async (req: Request, res: Response): Promise<Response> => {
+        this.errorHandler.SetRes(res);
+    
+        const walletAddress: string | undefined = req.params.walletAddress;
+    
+        try {
+            const balance = await this.services.WalletService().GetAccountInfo(walletAddress);
+    
+            return this.errorHandler.OK("Account information fetched successfully", balance);
+        } catch (error) {
+            if (error instanceof ResponseData) {
+                return this.errorHandler.Format(error)
+            }
+            return this.errorHandler.InternalServerError("Unkown Error", error);
+        }
     }
     
+    Airdrop = async (req:Request, res:Response): Promise<Response> => {
+        this.errorHandler.SetRes(res);
+
+        const { walletAddress, solAmount } = req.body;
+
+        try {
+            const tx = await this.services.WalletService().Airdrop(walletAddress, solAmount)
+
+            return this.errorHandler.OK("Balance fetched successfully", tx);
+        } catch (error) {
+            if (error instanceof ResponseData) {
+                return this.errorHandler.Format(error)
+            }
+            return this.errorHandler.InternalServerError("Unkown Error", error);
+        }
+    }
 
 }
 
