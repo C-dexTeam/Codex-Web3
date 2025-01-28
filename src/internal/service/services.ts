@@ -1,10 +1,13 @@
+import NFTService from "./nft";
 import SolanaService from "./solona";
 
 class Services{
     private solana: SolanaService;
+    private nft: NFTService;
 
-    constructor(solanaService: SolanaService){
+    constructor(solanaService: SolanaService, nftService: NFTService){
         this.solana = solanaService
+        this.nft = nftService
     }
 
     Services() : Services{
@@ -13,6 +16,10 @@ class Services{
 
     SolanaService(): SolanaService{
         return this.solana
+    }
+
+    NFTService(): NFTService{
+        return this.nft
     }
 }
 

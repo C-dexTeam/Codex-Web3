@@ -1,24 +1,24 @@
 import Error from "../error/error";
-import SolonaHandler from "./solona";
 import Services from "../../service/services"; 
+import WalletHandler from "./wallet";
 
 class Handler {
     private services: Services;
     private errorHandler: Error;
-    private solonaHandler: SolonaHandler;
+    private walletHandler: WalletHandler;
 
     constructor(services: Services) {
         this.services = services;
         this.errorHandler = new Error();
 
-        this.solonaHandler = new SolonaHandler(
+        this.walletHandler = new WalletHandler(
             this.services,
             this.errorHandler,
         ); 
     }
 
-    SolonaHandler(): SolonaHandler {
-        return this.solonaHandler; 
+    WalletHandler(): WalletHandler {
+        return this.walletHandler; 
     }
 }
 

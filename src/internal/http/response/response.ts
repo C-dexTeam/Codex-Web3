@@ -1,13 +1,17 @@
 export class ResponseData {
     private message: string | undefined;
-    private status: string | undefined;
+    private status: number | undefined;
     private data: any;
     private error: string | undefined;
 
-    constructor(message?: string, status?: string, data: any = null, error?: string) {
+    constructor(message?: string, status?: number, data: any = null, error?: string) {
         this.message = message;
         this.status = status;
         this.data = data;
         this.error = error;
+    }
+
+    Status(): number{
+        return this.status ?? 666
     }
 }
