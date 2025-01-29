@@ -1,24 +1,27 @@
 import NFTService from "./nft";
 import WalletService from "./wallet";
 
-class Services{
+class Services {
     private wallet: WalletService;
     private nft: NFTService;
 
-    constructor(walletService: WalletService, nftService: NFTService){
+    constructor(
+        walletService: WalletService,
+        nftService: NFTService
+    ) {
         this.wallet = walletService
         this.nft = nftService
     }
 
-    Services() : Services{
+    Services(): Services {
         return this
     }
 
-    WalletService(): WalletService{
+    WalletService(): WalletService {
         return this.wallet
     }
 
-    NFTService(): NFTService{
+    NFTService(): NFTService {
         return this.nft
     }
 }

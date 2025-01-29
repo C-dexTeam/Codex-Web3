@@ -1,5 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import { ResponseData } from "../http/response/response";
+import { verifyAsync } from "@noble/ed25519";
 
 class WalletService {
     private connection;
@@ -13,6 +14,26 @@ class WalletService {
         }
 
         return `Hello ${name}`;
+    }
+
+    async VerifySignature(publicKey: string, message: string, signature: string){
+        try{
+            if (!publicKey || !message || !signature) {
+                throw new ResponseData("Publickey, Message and signature required", 400);
+            }
+            const pubKeyUint8 = new PublicKey(publicKey).toBytes();
+            
+            const signatureUint8 = Uint8Array.from(Buffer.from(signature, 'base64'));
+            
+            const messageUint8 = new TextEncoder().encode(message);
+    
+            // Verify Signature with Ed25519
+            const isValid = await verifyAsync(signatureUint8, messageUint8, pubKeyUint8);
+    
+            return isValid
+        }catch (error) {
+            throw new ResponseData("An error occurred while checking the signature.", 500);
+        }
     }
 
     async GetBalance(walletAddress: string) {
