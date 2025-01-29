@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import Error from "../error/error";
 import Services from "../../service/services"; 
 import { ResponseData } from '../response/response';
+import ErrorHandler from '../error/error';
 
 class WalletHandler {
     private services: Services;
-    private errorHandler: Error;
+    private errorHandler: ErrorHandler;
 
-    constructor(services: Services, errorHandler: Error) {
+    constructor(services: Services, errorHandler: ErrorHandler) {
         this.services = services;
         this.errorHandler = errorHandler;
     }

@@ -7,7 +7,6 @@ solana:
     devnet: "https://api.devnet.solana.com"
     testnet: "https://api.testnet.solana.com"
   public-key: 9LeKjcWCZKCsuMiU34veSWDdb1Vjw2bVhswswWs3D54q
-  private-key:
 
 http:
   host: "localhost"

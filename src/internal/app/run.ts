@@ -7,20 +7,26 @@ import Routes from '../http/routes/routes';
 import NFTService from '../service/nft';
 import { Connection } from '@solana/web3.js';
 import WalletService from '../service/wallet';
+import NFTRoutes from '../http/routes/nft';
+import { configDotenv } from 'dotenv';
 
 export const Run = (config: Config): void => {
     const app = express();
     app.use(express.json());
 
+    // Constants
+    const network = config.solana.network.devnet
+    const keypairBase64 = process.env.KEYPAIR
+
     // Solana Connection
-    const connection = new Connection(config.solana.network.devnet)
+    const connection = new Connection(network)
 
     // Service Implementation
     const walletService = new WalletService(connection)
-    const nftService = new NFTService(connection)
+    const nftService = new NFTService(connection, network, keypairBase64)
     const services = new Services(
         walletService,
-        nftService
+        nftService,
     )
 
     // Handler Implementation
@@ -28,15 +34,15 @@ export const Run = (config: Config): void => {
 
     // Creation of Routes
     const solonaRoutes = new SolonaRoutes(handler)
-    const routes = new Routes(app, solonaRoutes)
+    const nftRoutes = new NFTRoutes(handler)
+    const routes = new Routes(
+        app,
+        solonaRoutes,
+        nftRoutes,
+    )
 
     // Implementation of Routers
     routes.init()
-
-    // Welcome Message
-    app.get("/", (req: Request, res: Response) => {
-        res.send("Welcome to the Codex-Web3 API!");
-    });
 
     // Start Server
     const port = config.http.port
