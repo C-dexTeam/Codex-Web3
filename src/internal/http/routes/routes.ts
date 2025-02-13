@@ -19,7 +19,6 @@ class Routes {
             res.send("Welcome to the Codex-Web3 API!");
         });
 
-        console.log("Routes Initialized");
         this.app.use('/wallet', this.wallet.init());
         this.app.use('/nft', this.nft.init())
     }

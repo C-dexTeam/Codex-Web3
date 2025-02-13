@@ -12,12 +12,12 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction): 
       return;
     }
 
-    // If session_id cookie is missing, send Unauthorized response
-    const sessionID = req?.cookies?.session_id;
-    if (!sessionID) {
-      res.status(401).json({ message: "Unauthorized" });  // Return here to stop further processing
-      return ;
-    }
+    // // If session_id cookie is missing, send Unauthorized response
+    // const sessionID = req?.cookies?.session_id;
+    // if (!sessionID) {
+    //   res.status(401).json({ message: "Unauthorized" });  // Return here to stop further processing
+    //   return ;
+    // }
 
     // Everything is good, so call the next middleware or route handler
     next();

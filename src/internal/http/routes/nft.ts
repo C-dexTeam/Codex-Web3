@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import  Handler from '../handler/handler'; 
-import authMiddleware from '../../middlewares/auth';
+import authMiddleware from '../middlewares/auth';
 
 // This Class For Specifig Routes
 class NFTRoutes {
