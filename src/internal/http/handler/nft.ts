@@ -15,9 +15,9 @@ class NFTHandler{
 
     MintNFT = async (req: Request, res: Response): Promise<Response> => {
         this.errorHandler.SetRes(res);
-    
-        const {publicKeyStr, name, symbol, uri, sellerFee} = req.body;
-    
+
+        const {publicKey, name, symbol, uri, sellerFee} = req.body;
+
         try {
             const nftMintResult = await this.services.NFTService().MintNFT(
                 name,
@@ -26,9 +26,14 @@ class NFTHandler{
                 sellerFee
             );
 
+            console.log("2222222222222222222222222222222222222222222222222222222")
+            console.log(nftMintResult.address.toString(), "NFT MİNTED");
+
+            console.log(publicKey, "PUBLIC KEY STR")
+
             const transferNFT = await this.services.NFTService().TransferNFT(
                 nftMintResult.address.toString(),
-                publicKeyStr
+                publicKey.toString()
             )
     
             return this.errorHandler.OK("NFT minted successfully", {nftMintResult, transferNFT});

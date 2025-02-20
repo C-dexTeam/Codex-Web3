@@ -1,4 +1,4 @@
-import { irysStorage, keypairIdentity, Metaplex, storageModule, tokenProgram } from "@metaplex-foundation/js";
+import { findMetadataPda, irysStorage, keypairIdentity, Metaplex, storageModule, tokenProgram } from "@metaplex-foundation/js";
 import { Connection, Keypair, PublicKey, Transaction, TransactionInstruction, VersionedMessage, VersionedTransaction } from "@solana/web3.js"
 import { ResponseData } from "../http/response/response";
 import hasher from "../../pkg/hasher/hasher";
@@ -6,17 +6,19 @@ import hasher from "../../pkg/hasher/hasher";
 class NFTService {
     private connection: Connection;
     private network: string;
-    private keypairBase64?: string;
+    private keypairPath: string;
+    private keypairName: string;
 
-    constructor(conn: Connection, network: string, keypairBase64?: string) {
+    constructor(conn: Connection, network: string, keypairPath: string, keypairName: string) {
         this.connection = conn
         this.network = network
-        this.keypairBase64 = keypairBase64
+        this.keypairPath = keypairPath
+        this.keypairName = keypairName
     }
 
     async MintNFT(name: string, symbol: string, uri: string, sellerFeeBasisPoints: number = 500) {
         try {
-            const adminKeypair = hasher.ReadKeypair()
+            const adminKeypair = hasher.ReadKeypair(this.keypairPath, this.keypairName);
 
             if (!uri) {
                 throw new ResponseData("URI required", 400);
@@ -40,6 +42,7 @@ class NFTService {
 
             return nft;
         } catch (error) {
+            console.log(error, "error");
             throw new Error("An unexpected error occurred while minting the NFT.");
         }
     }
@@ -47,7 +50,7 @@ class NFTService {
     async TransferNFT(nftAddress: string, recipientPublicKeyStr: string) {
         try {
             // 1. Sender Wallet 
-            const senderKeypair = hasher.ReadKeypair();
+            const senderKeypair = hasher.ReadKeypair(this.keypairPath, this.keypairName);
     
             // 2. Recipient Wallet (public key)
             const recipientPublicKey = new PublicKey(recipientPublicKeyStr);

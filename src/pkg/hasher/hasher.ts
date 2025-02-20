@@ -1,12 +1,9 @@
 import { Keypair } from '@solana/web3.js';
 import fs from 'fs';
 import bs58 from 'bs58';
-import path from 'path';
 
-
-
-const ReadKeypair = (): Keypair => {
-    const keypairPath = path.join(process.cwd(), '..','..','Wallet', 'codex-wallet.json');
+const ReadKeypair = (walletPath:string, name:string): Keypair => {
+    const keypairPath = walletPath + "/" + name;
 
     const keypairData = fs.readFileSync(keypairPath);
     

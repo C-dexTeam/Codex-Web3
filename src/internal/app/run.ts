@@ -16,14 +16,13 @@ export const Run = (config: Config): void => {
 
     // Constants
     const network = config.solana.network.devnet
-    const keypairBase64 = process.env.KEYPAIR
 
     // Solana Connection
     const connection = new Connection(network)
 
     // Service Implementation
     const walletService = new WalletService(connection)
-    const nftService = new NFTService(connection, network, keypairBase64)
+    const nftService = new NFTService(connection, network, config.solana.keypairPath, config.solana.keypairName)
     const services = new Services(
         walletService,
         nftService,
@@ -43,6 +42,13 @@ export const Run = (config: Config): void => {
 
     // Implementation of Routers
     routes.init()
+
+    // Implement Cors Policy
+    app.use((req: Request, res: Response, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        next();
+    });
 
     // Start Server
     const port = config.http.port
