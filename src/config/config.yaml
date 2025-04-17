@@ -6,8 +6,8 @@ solana:
     mainnet: "https://api.mainnet-beta.solana.com"
     devnet: "https://api.devnet.solana.com"
     testnet: "https://api.testnet.solana.com"
-  keypairPath: "/usr/src/Wallet"
-  keypairName: "codex-wallet.json"
+  keypairPath: "/Wallet"
+  keypairName: "idor.json"
 
 http:
   host: "localhost"

@@ -2,11 +2,11 @@ import { Keypair } from '@solana/web3.js';
 import fs from 'fs';
 import bs58 from 'bs58';
 
-const ReadKeypair = (walletPath:string, name:string): Keypair => {
+const ReadKeypair = (walletPath: string, name: string): Keypair => {
     const keypairPath = walletPath + "/" + name;
 
     const keypairData = fs.readFileSync(keypairPath);
-    
+
     const secretKeyUint8 = new Uint8Array(JSON.parse(keypairData.toString()));
 
     const keypair = Keypair.fromSecretKey(secretKeyUint8);

@@ -11,7 +11,11 @@ export class ResponseData {
         this.error = error;
     }
 
-    Status(): number{
+    Status(): number {
         return this.status ?? 666
+    }
+
+    Data(): any {
+        return this.data
     }
 }
