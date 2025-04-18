@@ -8,15 +8,11 @@ import NFTService from '../service/nft';
 import { Connection } from '@solana/web3.js';
 import WalletService from '../service/wallet';
 import NFTRoutes from '../http/routes/nft';
-import UserService from '../service/user';
-import UserRoutes from '../http/routes/user';
-
-const cors = require('cors')
+import { configDotenv } from 'dotenv';
 
 export const Run = (config: Config): void => {
     const app = express();
     app.use(express.json());
-    app.use(cors())
 
     // Constants
     const network = config.solana.network.devnet
@@ -27,11 +23,9 @@ export const Run = (config: Config): void => {
     // Service Implementation
     const walletService = new WalletService(connection)
     const nftService = new NFTService(connection, network, config.solana.keypairPath, config.solana.keypairName)
-    const userService = new UserService()
     const services = new Services(
         walletService,
         nftService,
-        userService
     )
 
     // Handler Implementation
@@ -40,12 +34,10 @@ export const Run = (config: Config): void => {
     // Creation of Routes
     const solonaRoutes = new SolonaRoutes(handler)
     const nftRoutes = new NFTRoutes(handler)
-    const userRoutes = new UserRoutes(handler)
     const routes = new Routes(
         app,
         solonaRoutes,
         nftRoutes,
-        userRoutes,
     )
 
     // Implementation of Routers

@@ -18,11 +18,7 @@ class NFTService {
 
     async MintNFT(name: string, symbol: string, uri: string, sellerFeeBasisPoints: number = 500) {
         try {
-            console.log("DPSAKSAtest")
-
             const adminKeypair = hasher.ReadKeypair(this.keypairPath, this.keypairName);
-
-            console.log(adminKeypair, "test")
 
             if (!uri) {
                 throw new ResponseData("URI required", 400);
@@ -31,7 +27,7 @@ class NFTService {
             const metaplex = Metaplex.make(this.connection)
                 .use(keypairIdentity(adminKeypair))
                 .use(irysStorage({
-                    address: uri,
+                    address: uri, 
                     providerUrl: this.network, // Solana devnet URL
                     timeout: 60000,
                 }));
@@ -55,22 +51,22 @@ class NFTService {
         try {
             // 1. Sender Wallet 
             const senderKeypair = hasher.ReadKeypair(this.keypairPath, this.keypairName);
-
+    
             // 2. Recipient Wallet (public key)
             const recipientPublicKey = new PublicKey(recipientPublicKeyStr);
-
+    
             // 3. NFT Transfer
             const transaction = new Transaction();
-
+    
             // Initialize Metaplex
             const metaplex = Metaplex.make(this.connection)
                 .use(keypairIdentity(senderKeypair));
-
+    
             // Get NFT metadata and token info
             const nftMetadata = await metaplex.nfts().findByMint({
                 mintAddress: new PublicKey(nftAddress)
             });
-
+    
             // Prepare TransferNftInput parameters
             const transferInput = {
                 nftOrSft: {
@@ -81,19 +77,19 @@ class NFTService {
                 fromOwner: senderKeypair.publicKey,  // Sender's public key (from which the NFT will be transferred)
                 toOwner: recipientPublicKey,  // Recipient's public key
             };
-
+    
             // Create NFT transfer transaction (wait for it to complete)
             const transferOutput = await metaplex.nfts().transfer(transferInput);
-
+    
             // Get the transaction signature and response from the transfer
             const signature = transferOutput.response.signature;
-
+    
             // 4. Send and sign the transaction
             const txSignature = await this.connection.sendTransaction(transaction, [senderKeypair]);
-
+    
             // 5. Confirm the transaction
             await this.connection.confirmTransaction(txSignature);
-
+    
             return signature;
         } catch (error) {
             console.error("Error during NFT transfer:", error);

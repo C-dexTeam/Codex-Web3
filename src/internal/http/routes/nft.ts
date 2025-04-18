@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express';
-import Handler from '../handler/handler';
+import  Handler from '../handler/handler'; 
+import authMiddleware from '../middlewares/auth';
 
-// This Class For Specific Routes
+// This Class For Specifig Routes
 class NFTRoutes {
     private handler: Handler;
 
@@ -12,13 +13,8 @@ class NFTRoutes {
     init(): Router {
         const router = Router();
 
-        // Normal Mint Endpoint
-        router.post('/mint', (req: Request, res: Response) => {
+        router.post('/mint', authMiddleware,(req: Request, res: Response) => {
             this.handler.NFTHandler().MintNFT(req, res);
-        });
-
-        router.post('/mint/demo', (req: Request, res: Response) => {
-            this.handler.NFTHandler().MintNFTDemo(req, res);
         });
 
         return router;
